@@ -2,9 +2,13 @@
 import json
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 from django.conf import settings
 from django.http import HttpResponse
-from server.forms import SubscriptionFormWithNgValidation, SubscriptionFormWithNgModel, SubscriptionFormWithNgValidationAndModel
+from djangular.views.crud import NgCRUDView
+from server.forms import SubscriptionFormWithNgValidation, SubscriptionFormWithNgModel, SubscriptionFormWithNgValidationAndModel,\
+    SimpleFormWithNgAndDjangoModel
+from server.models import SimpleModel
 
 
 class SubscribeFormView(TemplateView):
@@ -48,6 +52,15 @@ class SubscribeViewWithModelForm(SubscribeFormView):
 class SubscribeViewWithModelFormAndValidation(SubscribeFormView):
     template_name = 'model-validation-form.html'
     form = SubscriptionFormWithNgValidationAndModel
+
+
+class ValidatedCRUDView(FormView):
+    template_name = 'model-form-with-crud.html'
+    form_class = SimpleFormWithNgAndDjangoModel
+
+
+class SimpleCRUDView(NgCRUDView):
+    model_class = SimpleModel
 
 
 class Ng3WayDataBindingView(SubscribeViewWithModelForm):

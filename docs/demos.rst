@@ -3,7 +3,7 @@
 =================
 Running the demos
 =================
-Shipped with this project, there are four demo pages, showing how to use the AngularJS validation
+Shipped with this project, there are five demo pages, showing how to use the AngularJS validation
 and data-binding mechanisms in combination with Django forms. Use them as a starting point for your
 own application using **django-angular**.
 
@@ -11,6 +11,7 @@ To run the demos, change into the directory ``examples`` and start the developme
 
 .. code-block:: bash
 
+    ./manage.py syncdb    # Only required for the CRUD View Validation
 	./manage.py runserver
 
 Now, point a browser onto one of
@@ -18,6 +19,7 @@ Now, point a browser onto one of
 * http://localhost:8000/form_validation/
 * http://localhost:8000/model_form/
 * http://localhost:8000/model_form_validation/
+* http://localhost:8000/model_form_with_crud/
 * http://localhost:8000/threeway_databinding/
 
 Form Validation
@@ -39,6 +41,13 @@ Model Form Validation
 The *Model Form Validation* shows how to combined both techniques from above, to create an AngularJS
 model which additionally is validated on the client.
 
+CRUD View Validation
+====================
+*CRUD View Validation* is not a full example of ``NgCRUDView``, but illustrates how to save an
+AngularJS resource and handle the response in the controller. The form can be submitted with any
+valid user name and e-mail address. Subsequent modifications and form submissions within the same
+session update the existing entry (due to the ``pk`` entry). However, when the form is opened in
+another session, a form submit with an identical e-mail address is reported as a duplicate.
 
 Three-Way Data-Binding
 ======================

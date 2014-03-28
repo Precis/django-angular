@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from djangular.forms import NgFormValidationMixin, NgModelFormMixin
 
+from server.models import SimpleModel
+
 
 def reject_addresses(value):
     try:
@@ -48,4 +50,13 @@ class SubscriptionFormWithNgModel(NgModelFormMixin, SubscriptionForm):
 
 class SubscriptionFormWithNgValidationAndModel(NgModelFormMixin, NgFormValidationMixin, SubscriptionForm):
     form_name = 'valid_form'
+    scope_prefix = 'subscribe_data'
+
+
+class SimpleFormWithNgAndDjangoModel(NgModelFormMixin, NgFormValidationMixin, forms.ModelForm):
+    class Meta:
+        model = SimpleModel
+        exclude = ()
+
+    form_name = 'simple_form'
     scope_prefix = 'subscribe_data'
