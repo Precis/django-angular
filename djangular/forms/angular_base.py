@@ -45,6 +45,13 @@ class TupleErrorList(UserList, list):
     li_format = '<li ng-show="{0}.{1}" class="{2}">{3}</li>'
     li_format_bind = '<li ng-show="{0}.{1}" class="{2}" ng-bind="{0}.{3}"></li>'
 
+    def __init__(self, initlist=None, error_class=None):
+        super(TupleErrorList, self).__init__(initlist)
+        if error_class is None:
+            self.error_class = 'errorlist'
+        else:
+            self.error_class = 'errorlist {0}'.format(error_class)
+
     def as_data(self):
         return ValidationError(self.data).error_list
 
@@ -74,8 +81,8 @@ class TupleErrorList(UserList, list):
             # renders and combine both of these lists
             return mark_safe(''.join([format_html(self.ul_format, first[0], first[1], prop,
                         mark_safe(''.join(list_items))) for prop, list_items in error_lists.items()]))
-        return format_html('<ul class="errorlist">{0}</ul>',
-            format_html_join('', '<li>{0}</li>', ((force_text(e),) for e in self)))
+        return format_html('<ul class="{1}">{0}</ul>',
+            format_html_join('', '<li>{0}</li>', ((force_text(e),) for e in self)), self.error_class)
 
     def as_text(self):
         if not self:
