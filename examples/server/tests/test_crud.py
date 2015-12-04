@@ -14,6 +14,7 @@ class CRUDTestViewWithFK(JSONResponseMixin, NgCRUDView):
     Include JSONResponseMixin to make sure there aren't any problems when using both together
     """
     model = DummyModel
+    fields = ['name']
 
 
 class CRUDTestView(JSONResponseMixin, NgCRUDView):
@@ -21,6 +22,7 @@ class CRUDTestView(JSONResponseMixin, NgCRUDView):
     Include JSONResponseMixin to make sure there aren't any problems when using both together
     """
     model = DummyModel2
+    fields = ['name']
 
 
 class CRUDTestViewWithSlug(NgCRUDView):
@@ -30,6 +32,7 @@ class CRUDTestViewWithSlug(NgCRUDView):
     """
     model = SimpleModel
     slug_field = 'email'
+    fields = ['name', 'email']
 
 
 class CRUDViewTest(TestCase):

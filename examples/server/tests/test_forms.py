@@ -18,15 +18,20 @@ class SubModel(models.Model):
     first_name = models.CharField(max_length=40, blank=True)
 
 
+TEST_MODEL_FIELDS = ['first_name', 'radio_choices', 'select_choices']
+
+
 class SubForm1(NgModelFormMixin, forms.ModelForm):
     class Meta:
         model = SubModel
+        fields = TEST_MODEL_FIELDS
         widgets = {'radio_choices': forms.RadioSelect()}
 
 
 class SubForm2(NgModelFormMixin, forms.ModelForm):
     class Meta:
         model = SubModel
+        fields = TEST_MODEL_FIELDS
         widgets = {'radio_choices': forms.RadioSelect()}
         ng_models = ['select_choices', 'first_name']
 
@@ -34,6 +39,7 @@ class SubForm2(NgModelFormMixin, forms.ModelForm):
 class InvalidForm(NgModelFormMixin, forms.ModelForm):
     class Meta:
         model = SubModel
+        fields = TEST_MODEL_FIELDS
         ng_models = {}
 
 
