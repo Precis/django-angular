@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import six
 from base64 import b64encode
+
 import django
 from django.test import TestCase
+from django.utils import six
 from pyquery.pyquery import PyQuery
 from server.forms.client_validation import SubscribeForm as ClientValidatedForm
 from server.forms.combined_validation import SubscribeForm as CombinedValidatedForm

@@ -33,7 +33,7 @@ setup(
     keywords=['django', 'angularjs'],
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
-    install_requires=['six'],
+    install_requires=['django'],
     packages=find_packages(exclude=['examples', 'docs']),
     include_package_data=True,
 )
