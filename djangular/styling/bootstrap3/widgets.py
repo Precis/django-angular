@@ -66,8 +66,9 @@ class RadioChoiceInput(widgets.RadioChoiceInput):
         label_for = mark_safe(' '.join(label_attrs))
         return format_html('<label {0}>{1} {2}</label>', label_for, self.tag(), self.choice_label)
 
-    def tag(self):
-        tag_attrs = dict(self.attrs, type=self.input_type, name=self.name, value=self.choice_value)
+    def tag(self, attrs=None):
+        attrs = attrs or self.attrs
+        tag_attrs = dict(attrs, type=self.input_type, name=self.name, value=self.choice_value)
         if 'id' in self.attrs:
             tag_attrs['id'] = '{0}_{1}'.format(tag_attrs['id'], self.index)
         if self.is_checked():

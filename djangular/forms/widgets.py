@@ -22,9 +22,10 @@ class ChoiceFieldRenderer(widgets.ChoiceFieldRenderer):
 
 
 class CheckboxChoiceInput(widgets.CheckboxChoiceInput):
-    def tag(self):
+    def tag(self, attrs=None):
         name = '{0}.{1}'.format(self.name, self.choice_value)
-        tag_attrs = dict(self.attrs, type=self.input_type, name=name, value=self.choice_value)
+        attrs = attrs or self.attrs
+        tag_attrs = dict(attrs, type=self.input_type, name=name, value=self.choice_value)
         if 'id' in self.attrs:
             tag_attrs['id'] = '{0}_{1}'.format(self.attrs['id'], self.index)
         if 'ng-model' in self.attrs:
