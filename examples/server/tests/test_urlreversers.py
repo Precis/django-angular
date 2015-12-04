@@ -8,21 +8,21 @@ from djangular.core.urlresolvers import get_url_patterns
 class DummyView(View):
     pass
 
-include2 = patterns('',
+include2 = [
     url(r'^edit/$', DummyView.as_view(), name='edit'),
     url(r'^view/$', DummyView.as_view(), name='view'),
-)
+]
 
-include1 = patterns('',
+include1 = [
     url(r'^login/$', DummyView.as_view(), name='login'),
     url(r'^profile/', include(include2, namespace='profile')),
-)
+]
 
-urlpatterns = patterns('',
+urlpatterns = [
    url(r'^$', DummyView.as_view(), name='home'),
    url(r'^learnmore/$', DummyView.as_view(), name='learnmore'),
    url(r'accounts/', include(include1, namespace='accounts')),
-)
+]
 
 
 class UrlReverserTest(TestCase):

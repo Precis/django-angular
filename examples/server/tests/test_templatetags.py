@@ -2,14 +2,13 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import resolve
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.test.client import Client
 from django.template import RequestContext, Template
 
 
 class TemplateTagsTest(TestCase):
-    urls = 'server.tests.urls'
-
+    @override_settings(ROOT_URLCONF='server.tests.urls')
     def test_csrf_token(self):
         client = Client(enforce_csrf_checks=True)
         request = client.get('/straight_methods/')
@@ -19,8 +18,9 @@ class TemplateTagsTest(TestCase):
         template = Template('{% load djangular_tags %}x="{% csrf_token %}"')
         context = RequestContext(request, {'csrf_token': '123'})
         response = template.render(context)
-        self.assertInHTML(response, 'x=""')
+        self.assertIn("csrfmiddlewaretoken", response)
 
+    @override_settings(ROOT_URLCONF='server.tests.urls')
     def test_load_all_urls(self):
         client = Client()
         request = client.get('/sub_methods/sub/app/')
@@ -30,6 +30,7 @@ class TemplateTagsTest(TestCase):
         self.assertIn('"submethods:sub:app": "/sub_methods/sub/app/"', response)
         self.assertIn('"straightmethods": "/straight_methods/"', response)
 
+    @override_settings(ROOT_URLCONF='server.tests.urls')
     def test_load_self_urls(self):
         client = Client()
         request = client.get('/sub_methods/sub/app/')
@@ -42,6 +43,7 @@ class TemplateTagsTest(TestCase):
         self.assertIn('"submethods:sub:app": "/sub_methods/sub/app/"', response)
         self.assertNotIn('"straightmethods": "/straight_methods/"', response)
 
+    @override_settings(ROOT_URLCONF='server.tests.urls')
     def test_load_root_urls(self):
         client = Client()
         request = client.get('/sub_methods/sub/app/')

@@ -17,15 +17,15 @@ class RemoteMethodsView(JSONResponseMixin, View):
     def get(self, request):
         return HttpResponse('OK')
 
-subsub_patterns = patterns('',
+subsub_patterns = [
     url(r'^app/$', RemoteMethodsView.as_view(), name='app'),
-)
+]
 
-sub_patterns = patterns('',
+sub_patterns = [
     url(r'^sub/', include(subsub_patterns, namespace='sub')),
-)
+]
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^sub_methods/', include(sub_patterns, namespace='submethods')),
     url(r'^straight_methods/$', RemoteMethodsView.as_view(), name='straightmethods'),
-)
+]
