@@ -152,7 +152,7 @@ def get_all_remote_methods(resolver=None, ns_prefix=''):
             ViewClass = import_string('{0}.{1}'.format(resmgr.func.__module__, resmgr.func.__name__))
             if isclass(ViewClass) and issubclass(ViewClass, JSONResponseMixin):
                 result[name] = _get_remote_methods_for(ViewClass, url)
-        except (NoReverseMatch, ImproperlyConfigured):
+        except (NoReverseMatch, ImproperlyConfigured, ImportError):
             pass
     for namespace, ns_pattern in resolver.namespace_dict.items():
         sub_res = get_all_remote_methods(ns_pattern[1], ns_prefix + namespace + ':')
