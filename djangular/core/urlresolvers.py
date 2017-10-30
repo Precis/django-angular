@@ -5,8 +5,13 @@ from inspect import isclass
 
 from django.utils import six
 from django.utils.module_loading import import_string
-from django.core.urlresolvers import (get_resolver, get_urlconf, get_script_prefix,
-    get_ns_resolver, iri_to_uri, resolve, reverse, NoReverseMatch, RegexURLResolver, RegexURLPattern)
+try:  # Django > 1.9
+    from django.urls import (get_resolver, get_urlconf, get_script_prefix,
+        get_ns_resolver, resolve, reverse, NoReverseMatch, RegexURLResolver, RegexURLPattern)
+    from django.utils.encoding import iri_to_uri
+except ImportError:  # Django < 1.9
+    from django.core.urlresolvers import (get_resolver, get_urlconf, get_script_prefix,
+        get_ns_resolver, iri_to_uri, resolve, reverse, NoReverseMatch, RegexURLResolver, RegexURLPattern)
 from django.core.exceptions import ImproperlyConfigured
 
 from djangular.views.mixins import JSONResponseMixin
@@ -164,4 +169,3 @@ def get_all_remote_methods(resolver=None, ns_prefix=''):
 def get_current_remote_methods(view):
     if isinstance(view, JSONResponseMixin):
         return _get_remote_methods_for(view, view.request.path_info)
-
