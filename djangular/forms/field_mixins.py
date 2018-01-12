@@ -4,10 +4,13 @@ Mixin class methods to be added to django.forms.fields at runtime. These methods
 error messages for AngularJS form validation.
 """
 from __future__ import unicode_literals
+
+import warnings
+
 from django.forms import fields
 from django.forms import widgets
 from django.utils.translation import gettext_lazy, ungettext_lazy
-from .widgets import CheckboxSelectMultiple as DjngCheckboxSelectMultiple
+from . import widgets as djangular_widgets
 
 
 class DefaultFieldMixin(object):
@@ -187,6 +190,10 @@ class MultipleChoiceFieldMixin(MultipleFieldMixin):
         assert(isinstance(self, fields.MultipleChoiceField))
         if not isinstance(self.widget, widgets.CheckboxSelectMultiple):
             return
-        new_widget = DjngCheckboxSelectMultiple()
+        if not hasattr(djangular_widgets, 'CheckboxSelectMultiple'):
+            warnings.warn("Widget cannot be replaced since there is no implementation compatible with Django 1.11.",
+                          DeprecationWarning)
+            return self.widget
+        new_widget = djangular_widgets.CheckboxSelectMultiple()
         new_widget.__dict__ = self.widget.__dict__
         return new_widget
